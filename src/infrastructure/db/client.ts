@@ -82,3 +82,18 @@ export async function ensureDatabaseReady(): Promise<void> {
 
   return schemaReadyPromise;
 }
+
+export async function resetDatabase(): Promise<void> {
+  await ensureDatabaseReady();
+  await client.batch(
+    [
+      "DELETE FROM votes",
+      "DELETE FROM prompts",
+      "DELETE FROM action_scripts",
+      "DELETE FROM lore_entries",
+      "DELETE FROM world_snapshots",
+      "DELETE FROM turns",
+      "DELETE FROM settings"
+    ].map((sql) => ({ sql }))
+  );
+}

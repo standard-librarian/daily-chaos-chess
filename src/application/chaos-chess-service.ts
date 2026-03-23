@@ -168,6 +168,21 @@ export class ChaosChessService {
     return closedTurn;
   }
 
+  async forceCloseTurn(): Promise<Turn> {
+    await this.ensureBootstrapped();
+    const currentTurn = await this.repository.getCurrentTurn();
+    if (!currentTurn) {
+      throw new NotFoundError("No active turn exists.");
+    }
+
+    if (currentTurn.status !== "open") {
+      return currentTurn;
+    }
+
+    const forcedNow = new Date(new Date(currentTurn.closesAt).getTime() + 1000);
+    return this.closeTurn(forcedNow);
+  }
+
   async resolveWinner(
     user: CurrentUser | undefined,
     actionScriptInput?: ActionScript

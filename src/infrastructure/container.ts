@@ -12,3 +12,7 @@ export function getChaosChessService(): ChaosChessService {
   singleton = new ChaosChessService(new LibsqlGameRepository(), new PassThroughModerator());
   return singleton;
 }
+
+export function resetChaosChessService(): void {
+  singleton = null;
+}

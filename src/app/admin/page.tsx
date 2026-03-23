@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { ActionStatusBanner } from "@/components/action-status-banner";
 import {
   closeTurnAction,
   executeResolvedTurnAction,
@@ -9,12 +10,18 @@ import {
 } from "@/app/actions";
 import { getViewerContext } from "@/infrastructure/auth/demo-auth";
 import { getChaosChessService } from "@/infrastructure/container";
+import { readActionStatus } from "@/presentation/action-status";
 import { buildSuggestedActionScript } from "@/presentation/lib";
 
-export default async function AdminPage() {
+export default async function AdminPage({
+  searchParams
+}: {
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+}) {
   const service = getChaosChessService();
   const view = await service.viewCurrentWorld();
   const { user } = await getViewerContext();
+  const status = await readActionStatus(searchParams);
   const winningPrompt = view.currentTurn.winningPromptId
     ? view.promptFeed.find((prompt) => prompt.id === view.currentTurn.winningPromptId)
     : undefined;
@@ -35,6 +42,7 @@ export default async function AdminPage() {
       </div>
 
       <div className="panel">
+        <ActionStatusBanner status={status} />
         <div className="eyebrow">Adjudication deck</div>
         <h1>Run the canon pipeline</h1>
         <p className="muted">
@@ -50,24 +58,27 @@ export default async function AdminPage() {
           <div className="eyebrow">Turn controls</div>
           <h2>Current turn: Day {view.currentTurn.turnNumber}</h2>
           <div className="pill-row" style={{ marginBottom: 18 }}>
-            <div className="pill">{view.currentTurn.status}</div>
-            <div className="pill">mode: {view.automationMode}</div>
+            <div className="pill" data-testid="admin-turn-status">{view.currentTurn.status}</div>
+            <div className="pill" data-testid="admin-automation-mode">mode: {view.automationMode}</div>
           </div>
           <div className="form-row">
             <form action={closeTurnAction}>
-              <button className="button" type="submit">
+              <input name="returnTo" type="hidden" value="/admin" />
+              <button className="button" data-testid="admin-close-turn" type="submit">
                 Force close current turn
               </button>
             </form>
             <form action={executeResolvedTurnAction}>
-              <button className="button secondary" type="submit">
+              <input name="returnTo" type="hidden" value="/admin" />
+              <button className="button secondary" data-testid="admin-execute-turn" type="submit">
                 Execute resolved turn
               </button>
             </form>
           </div>
           <form action={toggleAutomationModeAction} className="stack" style={{ marginTop: 20 }}>
             <input name="mode" type="hidden" value={view.automationMode === "manual_assisted" ? "auto_execute" : "manual_assisted"} />
-            <button className="button secondary" type="submit">
+            <input name="returnTo" type="hidden" value="/admin" />
+            <button className="button secondary" data-testid="admin-toggle-automation" type="submit">
               Switch to {view.automationMode === "manual_assisted" ? "auto execute" : "manual assisted"}
             </button>
           </form>
@@ -88,7 +99,8 @@ export default async function AdminPage() {
                     <input name="promptId" type="hidden" value={prompt.id} />
                     <input name="accepted" type="hidden" value="true" />
                     <input name="notes" type="hidden" value="Approved by admin." />
-                    <button className="button secondary" type="submit">
+                    <input name="returnTo" type="hidden" value="/admin" />
+                    <button className="button secondary" data-testid={`admin-approve-${prompt.id}`} type="submit">
                       Approve
                     </button>
                   </form>
@@ -96,7 +108,8 @@ export default async function AdminPage() {
                     <input name="promptId" type="hidden" value={prompt.id} />
                     <input name="accepted" type="hidden" value="false" />
                     <input name="notes" type="hidden" value="Rejected by admin." />
-                    <button className="button danger" type="submit">
+                    <input name="returnTo" type="hidden" value="/admin" />
+                    <button className="button danger" data-testid={`admin-reject-${prompt.id}`} type="submit">
                       Reject
                     </button>
                   </form>
@@ -109,18 +122,20 @@ export default async function AdminPage() {
 
       <div className="panel">
         <div className="eyebrow">Resolve winner</div>
-        <h2>{winningPrompt ? `Winning prompt: ${winningPrompt.text}` : "No winner yet"}</h2>
+        <h2 data-testid="admin-winning-prompt">{winningPrompt ? `Winning prompt: ${winningPrompt.text}` : "No winner yet"}</h2>
         <p className="muted">
           Use the bounded action script below. This can be generated automatically later, but the persistence and execution path stays the same.
         </p>
         <form action={resolveWinningPromptAction} className="stack">
           <textarea
             className="textarea mono small"
+            data-testid="admin-action-script"
             name="actionScriptJson"
             defaultValue={JSON.stringify(suggestedScript ?? {}, null, 2)}
           />
+          <input name="returnTo" type="hidden" value="/admin" />
           <div>
-            <button className="button" disabled={!winningPrompt} type="submit">
+            <button className="button" data-testid="admin-approve-script" disabled={!winningPrompt} type="submit">
               Approve action script
             </button>
           </div>

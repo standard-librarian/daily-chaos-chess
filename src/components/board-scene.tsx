@@ -1,5 +1,7 @@
 "use client";
 
+import { useCallback, useEffect, useState } from "react";
+
 import { Clone, ContactShadows, Float, OrbitControls, Sparkles, useGLTF } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 
@@ -7,6 +9,14 @@ import { WorldState } from "@/domain/model/types";
 
 interface BoardSceneProps {
   worldState: WorldState;
+}
+
+function SceneReadyMarker({ onReady }: { onReady: () => void }) {
+  useEffect(() => {
+    onReady();
+  }, [onReady]);
+
+  return null;
 }
 
 function BoardSquare({ x, y, dark }: { x: number; y: number; dark: boolean }) {
@@ -176,9 +186,17 @@ function CastleKitProps() {
 }
 
 export function BoardScene({ worldState }: BoardSceneProps) {
+  const [canvasReady, setCanvasReady] = useState(false);
+  const [sceneReady, setSceneReady] = useState(false);
+  const handleSceneReady = useCallback(() => setSceneReady(true), []);
+
   return (
-    <div className="board-wrap">
-      <Canvas camera={{ position: [0.8, 8.8, 11.5], fov: 34 }} shadows dpr={[1, 2]}>
+    <div
+      className="board-wrap"
+      data-scene-ready={canvasReady && sceneReady ? "true" : "false"}
+      data-testid="board-stage"
+    >
+      <Canvas camera={{ position: [0.8, 8.8, 11.5], fov: 34 }} dpr={[1, 2]} onCreated={() => setCanvasReady(true)} shadows>
         <color attach="background" args={["#020202"]} />
         <fog attach="fog" args={["#020202", 12, 28]} />
         <ambientLight intensity={0.6} />
@@ -239,6 +257,7 @@ export function BoardScene({ worldState }: BoardSceneProps) {
           />
           <CastleKitProps />
           <ChaosProps />
+          <SceneReadyMarker onReady={handleSceneReady} />
         </group>
         <OrbitControls
           enablePan={false}
@@ -249,6 +268,9 @@ export function BoardScene({ worldState }: BoardSceneProps) {
           target={[3.5, 0.8, 3.5]}
         />
       </Canvas>
+      <div aria-hidden="true" data-testid="board-ready" hidden>
+        {canvasReady && sceneReady ? "ready" : "loading"}
+      </div>
     </div>
   );
 }

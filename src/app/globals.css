@@ -481,6 +481,27 @@ button {
   min-height: calc(100svh - 57px);
 }
 
+.status-banner {
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--line-strong);
+  backdrop-filter: blur(8px);
+  font-size: 0.94rem;
+}
+
+.status-banner.success {
+  background: rgba(136, 203, 255, 0.11);
+  color: #d9f0ff;
+  border-color: rgba(136, 203, 255, 0.28);
+}
+
+.status-banner.error {
+  background: rgba(243, 139, 168, 0.12);
+  color: #ffd7e2;
+  border-color: rgba(243, 139, 168, 0.28);
+}
+
 .countdown {
   font-size: 1rem;
   font-weight: 600;

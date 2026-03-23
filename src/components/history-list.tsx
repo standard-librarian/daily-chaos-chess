@@ -5,7 +5,7 @@ export function HistoryList({ history }: { history: HistoryEntry[] }) {
   return (
     <div className="history-list">
       {history.map((entry) => (
-        <div className="history-card" key={entry.turn.id}>
+        <div className="history-card" data-testid="history-card" key={entry.turn.id}>
           <div className="split">
             <h3>Day {entry.turn.turnNumber}</h3>
             <div className="pill">{entry.turn.status}</div>

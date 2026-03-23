@@ -1,17 +1,24 @@
 import Link from "next/link";
 
+import { ActionStatusBanner } from "@/components/action-status-banner";
 import { AuthPanel } from "@/components/auth-panel";
 import { BoardScene } from "@/components/board-scene";
 import { Countdown } from "@/components/countdown";
 import { PromptFeed } from "@/components/prompt-feed";
 import { getViewerContext } from "@/infrastructure/auth/demo-auth";
 import { getChaosChessService } from "@/infrastructure/container";
+import { readActionStatus } from "@/presentation/action-status";
 import { formatDateTime } from "@/presentation/lib";
 
-export default async function HomePage() {
+export default async function HomePage({
+  searchParams
+}: {
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+}) {
   const service = getChaosChessService();
   const view = await service.viewCurrentWorld();
   const { user } = await getViewerContext();
+  const status = await readActionStatus(searchParams);
 
   return (
     <main className="page">
@@ -38,6 +45,7 @@ export default async function HomePage() {
         <div className="hero-overlay">
           <div className="hero-copy reveal">
             <div className="hero-copy-surface">
+              <ActionStatusBanner status={status} />
               <div className="eyebrow">Daily Chaos Chess</div>
               <h1 className="hero-title">The crowd writes the next move. The board learns to regret it.</h1>
               <p className="hero-lead">
@@ -81,7 +89,7 @@ export default async function HomePage() {
         <a className="scroll-tease reveal delay-2" href="#prompt-feed">
           <div className="scroll-tease-copy">
             <span className="scroll-tease-label">Next move council</span>
-            <span className="scroll-tease-title">
+            <span className="scroll-tease-title" data-testid="prompt-feed-teaser">
               {view.promptFeed.length > 0 ? `${view.promptFeed.length} prompts waiting below` : "Scroll to cast the first command"}
             </span>
           </div>
