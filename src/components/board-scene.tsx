@@ -2,7 +2,6 @@
 
 import { Clone, Float, OrbitControls, Sparkles, useGLTF } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import * as THREE from "three";
 
 import { WorldState } from "@/domain/model/types";
 
@@ -19,38 +18,67 @@ function BoardSquare({ x, y, dark }: { x: number; y: number; dark: boolean }) {
   );
 }
 
-function sideColor(color: string) {
-  return new THREE.Color(color).multiplyScalar(0.15);
-}
+const PIECE_ASSET_PATHS = {
+  white: {
+    bishop: "/assets/chess-pieces/Bishop_White.glb",
+    king: "/assets/chess-pieces/King_White.glb",
+    knight: "/assets/chess-pieces/Knight_White.glb",
+    pawn: "/assets/chess-pieces/Pawn_White.glb",
+    queen: "/assets/chess-pieces/Queen_White.glb",
+    rook: "/assets/chess-pieces/Rook_White.glb"
+  },
+  black: {
+    bishop: "/assets/chess-pieces/Bishop_Black.glb",
+    king: "/assets/chess-pieces/King_Black.glb",
+    knight: "/assets/chess-pieces/Knight_Black.glb",
+    pawn: "/assets/chess-pieces/Pawn_Black.glb",
+    queen: "/assets/chess-pieces/Queen_Black.glb",
+    rook: "/assets/chess-pieces/Rook_Black.glb"
+  }
+} as const;
+
+const PIECE_SCALES = {
+  bishop: 0.45,
+  king: 0.46,
+  knight: 0.44,
+  pawn: 0.38,
+  queen: 0.45,
+  rook: 0.42
+} as const;
 
 function PieceMesh({
   x,
   y,
   z,
-  color,
+  side,
   kind
 }: {
   x: number;
   y: number;
   z: number;
-  color: string;
+  side: "white" | "black" | "neutral";
   kind: string;
 }) {
-  const height = kind === "king" ? 1.5 : kind === "queen" ? 1.35 : kind === "pawn" ? 0.8 : 1.05;
-  const radius = kind === "pawn" ? 0.22 : 0.28;
-  const emissive = sideColor(color);
+  const normalizedKind = (["bishop", "king", "knight", "pawn", "queen", "rook"].includes(kind) ? kind : "pawn") as keyof typeof PIECE_SCALES;
+  const palette = side === "black" ? "black" : "white";
+  const model = useGLTF(PIECE_ASSET_PATHS[palette][normalizedKind]);
+  const scale = PIECE_SCALES[normalizedKind];
+  const baseColor = side === "white" ? "#e7dcc3" : side === "black" ? "#4c211c" : "#62bdf4";
 
   return (
     <Float speed={1.5} rotationIntensity={0.05} floatIntensity={0.08}>
-      <group position={[x, z + height / 2, y]}>
-        <mesh castShadow>
-          <cylinderGeometry args={[radius * 1.04, radius * 1.18, height, 24]} />
-          <meshStandardMaterial color={color} metalness={0.28} roughness={0.38} emissive={emissive} emissiveIntensity={0.08} />
+      <group position={[x, z, y]} scale={scale}>
+        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.02, 0]} receiveShadow>
+          <circleGeometry args={[0.54, 40]} />
+          <meshStandardMaterial color={baseColor} transparent opacity={side === "neutral" ? 0.85 : 0.25} />
         </mesh>
-        <mesh position={[0, height / 2 + 0.14, 0]} castShadow>
-          <sphereGeometry args={[radius * 0.44, 20, 20]} />
-          <meshStandardMaterial color={color} metalness={0.2} roughness={0.25} emissive={emissive} emissiveIntensity={0.08} />
-        </mesh>
+        <Clone object={model.scene} castShadow receiveShadow />
+        {side === "neutral" ? (
+          <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.06, 0]}>
+            <torusGeometry args={[0.58, 0.035, 12, 42]} />
+            <meshStandardMaterial color="#62bdf4" emissive="#62bdf4" emissiveIntensity={0.7} transparent opacity={0.95} />
+          </mesh>
+        ) : null}
       </group>
     </Float>
   );
@@ -177,7 +205,7 @@ export function BoardScene({ worldState }: BoardSceneProps) {
                 x={entity.position.x}
                 y={entity.position.y}
                 z={entity.position.z ?? 0.5}
-                color={entity.side === "white" ? "#ece7d7" : entity.side === "black" ? "#90372d" : "#7fd1ff"}
+                side={entity.side}
                 kind={entity.kind}
               />
             ))}
@@ -212,3 +240,15 @@ useGLTF.preload("/assets/kenney/castle-kit/ground-hills.glb");
 useGLTF.preload("/assets/kenney/castle-kit/tree-large.glb");
 useGLTF.preload("/assets/kenney/castle-kit/flag-banner-long.glb");
 useGLTF.preload("/assets/kenney/castle-kit/siege-tower-demolished.glb");
+useGLTF.preload("/assets/chess-pieces/Bishop_Black.glb");
+useGLTF.preload("/assets/chess-pieces/Bishop_White.glb");
+useGLTF.preload("/assets/chess-pieces/King_Black.glb");
+useGLTF.preload("/assets/chess-pieces/King_White.glb");
+useGLTF.preload("/assets/chess-pieces/Knight_Black.glb");
+useGLTF.preload("/assets/chess-pieces/Knight_White.glb");
+useGLTF.preload("/assets/chess-pieces/Pawn_Black.glb");
+useGLTF.preload("/assets/chess-pieces/Pawn_White.glb");
+useGLTF.preload("/assets/chess-pieces/Queen_Black.glb");
+useGLTF.preload("/assets/chess-pieces/Queen_White.glb");
+useGLTF.preload("/assets/chess-pieces/Rook_Black.glb");
+useGLTF.preload("/assets/chess-pieces/Rook_White.glb");

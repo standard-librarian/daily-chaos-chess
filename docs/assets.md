@@ -17,6 +17,12 @@ The current board atmosphere uses the **Kenney Castle Kit**:
 - License: CC0
 - In repo: `public/assets/kenney/castle-kit/`
 
+The chess pieces now use the **Stylized Chess Pieces** pack from OpenGameArt:
+
+- Source page: [Stylized Chess Pieces](https://opengameart.org/content/stylized-chess-pieces)
+- License: CC0
+- In repo: `public/assets/chess-pieces/`
+
 ## Suggested visual categories
 
 - portals

@@ -11,3 +11,4 @@ dist
 local.db*
 *.tsbuildinfo
 public/assets/vendor
+tmp
