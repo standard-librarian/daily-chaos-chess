@@ -103,6 +103,17 @@ button {
   inset: 0;
 }
 
+.hero-stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.88) 0%, rgba(0, 0, 0, 0.7) 30%, rgba(0, 0, 0, 0.22) 56%, rgba(0, 0, 0, 0.5) 100%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0.26) 100%);
+  pointer-events: none;
+}
+
 .hero-overlay {
   position: relative;
   z-index: 2;
@@ -126,6 +137,22 @@ button {
   pointer-events: auto;
 }
 
+.hero-copy {
+  max-width: 760px;
+}
+
+.hero-copy-surface {
+  display: inline-block;
+  max-width: 100%;
+  padding: 24px 28px 26px;
+  border: 1px solid hsla(0, 0%, 100%, 0.08);
+  border-radius: 24px;
+  background:
+    linear-gradient(180deg, rgba(11, 11, 11, 0.84) 0%, rgba(11, 11, 11, 0.68) 100%);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(14px);
+}
+
 .eyebrow {
   font-size: 0.72rem;
   text-transform: uppercase;
@@ -140,13 +167,16 @@ button {
   letter-spacing: -0.04em;
   margin: 0 0 18px;
   max-width: 11ch;
+  text-wrap: balance;
+  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.42);
 }
 
 .hero-lead {
   margin: 0;
   max-width: 58ch;
-  color: var(--muted);
+  color: rgba(245, 245, 245, 0.78);
   font-size: 1.06rem;
+  text-wrap: pretty;
 }
 
 .hero-meta-row {
@@ -165,11 +195,11 @@ button {
   padding: 6px 12px;
   border-radius: 999px;
   border: 1px solid var(--line-strong);
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.07);
   font-size: 0.76rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: rgba(245, 245, 245, 0.74);
 }
 
 .hero-side {

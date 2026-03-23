@@ -1,6 +1,6 @@
 "use client";
 
-import { Clone, Float, OrbitControls, Sparkles, useGLTF } from "@react-three/drei";
+import { Clone, ContactShadows, Float, OrbitControls, Sparkles, useGLTF } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 
 import { WorldState } from "@/domain/model/types";
@@ -38,12 +38,12 @@ const PIECE_ASSET_PATHS = {
 } as const;
 
 const PIECE_SCALES = {
-  bishop: 0.45,
-  king: 0.46,
-  knight: 0.44,
-  pawn: 0.38,
-  queen: 0.45,
-  rook: 0.42
+  bishop: 0.68,
+  king: 0.72,
+  knight: 0.66,
+  pawn: 0.58,
+  queen: 0.7,
+  rook: 0.64
 } as const;
 
 function PieceMesh({
@@ -66,16 +66,16 @@ function PieceMesh({
   const baseColor = side === "white" ? "#e7dcc3" : side === "black" ? "#4c211c" : "#62bdf4";
 
   return (
-    <Float speed={1.5} rotationIntensity={0.05} floatIntensity={0.08}>
-      <group position={[x, z, y]} scale={scale}>
-        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.02, 0]} receiveShadow>
-          <circleGeometry args={[0.54, 40]} />
-          <meshStandardMaterial color={baseColor} transparent opacity={side === "neutral" ? 0.85 : 0.25} />
+    <Float speed={1} rotationIntensity={0.008} floatIntensity={0.016}>
+      <group position={[x, z - 0.08, y]} scale={scale}>
+        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.012, 0]} receiveShadow>
+          <circleGeometry args={[0.47, 40]} />
+          <meshStandardMaterial color={baseColor} transparent opacity={side === "neutral" ? 0.85 : 0.14} />
         </mesh>
         <Clone object={model.scene} castShadow receiveShadow />
         {side === "neutral" ? (
-          <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.06, 0]}>
-            <torusGeometry args={[0.58, 0.035, 12, 42]} />
+          <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.04, 0]}>
+            <torusGeometry args={[0.52, 0.03, 12, 42]} />
             <meshStandardMaterial color="#62bdf4" emissive="#62bdf4" emissiveIntensity={0.7} transparent opacity={0.95} />
           </mesh>
         ) : null}
@@ -181,10 +181,24 @@ export function BoardScene({ worldState }: BoardSceneProps) {
       <Canvas camera={{ position: [0.8, 8.8, 11.5], fov: 34 }} shadows dpr={[1, 2]}>
         <color attach="background" args={["#020202"]} />
         <fog attach="fog" args={["#020202", 12, 28]} />
-        <ambientLight intensity={0.42} />
-        <directionalLight position={[8, 12, 6]} intensity={2.1} castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} />
-        <spotLight position={[-8, 11, 9]} intensity={35} angle={0.28} penumbra={0.6} color="#8cc9ff" />
-        <spotLight position={[7, 9, -6]} intensity={22} angle={0.24} penumbra={0.7} color="#f4c95d" />
+        <ambientLight intensity={0.6} />
+        <hemisphereLight args={["#a6d7ff", "#0b0908", 0.55]} />
+        <directionalLight
+          position={[9, 13, 7]}
+          intensity={2.4}
+          castShadow
+          shadow-mapSize-width={2048}
+          shadow-mapSize-height={2048}
+          shadow-bias={-0.00012}
+          shadow-camera-left={-11}
+          shadow-camera-right={11}
+          shadow-camera-top={11}
+          shadow-camera-bottom={-11}
+          shadow-camera-near={1}
+          shadow-camera-far={32}
+        />
+        <spotLight position={[-9, 10, 8]} intensity={12} angle={0.34} penumbra={0.75} color="#7dbfff" />
+        <spotLight position={[8, 8, -5]} intensity={9} angle={0.28} penumbra={0.8} color="#f4c95d" />
         <Sparkles count={28} scale={[18, 6, 18]} size={2.2} speed={0.2} color="#f4c95d" position={[0, 3, 0]} />
         <group rotation={[-0.08, Math.PI / 4, 0]}>
           <Table />
@@ -214,6 +228,15 @@ export function BoardScene({ worldState }: BoardSceneProps) {
             .map((artifact) => (
               <ArtifactMesh key={artifact.id} x={artifact.position.x} y={artifact.position.y} z={artifact.position.z ?? 0.12} />
             ))}
+          <ContactShadows
+            position={[3.5, 0.22, 3.5]}
+            scale={11}
+            opacity={0.4}
+            blur={2.8}
+            far={12}
+            resolution={1024}
+            color="#000000"
+          />
           <CastleKitProps />
           <ChaosProps />
         </group>

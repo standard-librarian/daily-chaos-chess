@@ -37,15 +37,17 @@ export default async function HomePage() {
 
         <div className="hero-overlay">
           <div className="hero-copy reveal">
-            <div className="eyebrow">Daily Chaos Chess</div>
-            <h1 className="hero-title">The crowd writes the next move. The board learns to regret it.</h1>
-            <p className="hero-lead">
-              One winning prompt becomes canon each day. Sometimes it nudges a pawn. Sometimes it opens a hole in reality and calls that fair play.
-            </p>
-            <div className="hero-meta-row">
-              <div className="hero-badge">Turn {view.currentTurn.turnNumber}</div>
-              <div className="hero-badge">Mode {view.automationMode}</div>
-              <div className="hero-badge">Closes {formatDateTime(view.currentTurn.closesAt)}</div>
+            <div className="hero-copy-surface">
+              <div className="eyebrow">Daily Chaos Chess</div>
+              <h1 className="hero-title">The crowd writes the next move. The board learns to regret it.</h1>
+              <p className="hero-lead">
+                One winning prompt becomes canon each day. Sometimes it nudges a pawn. Sometimes it opens a hole in reality and calls that fair play.
+              </p>
+              <div className="hero-meta-row">
+                <div className="hero-badge">Turn {view.currentTurn.turnNumber}</div>
+                <div className="hero-badge">Mode {view.automationMode}</div>
+                <div className="hero-badge">Closes {formatDateTime(view.currentTurn.closesAt)}</div>
+              </div>
             </div>
           </div>
 
