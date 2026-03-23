@@ -1,0 +1,42 @@
+name: Bug report
+description: Report something broken in the board, voting flow, or canon pipeline.
+title: "[Bug] "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping make Daily Chaos Chess less cursed in the wrong ways.
+  - type: textarea
+    id: summary
+    attributes:
+      label: What broke?
+      description: Tell us the bug in one or two sentences.
+      placeholder: Opening the board page throws a runtime error and the canvas never appears.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: How do we reproduce it?
+      placeholder: |
+        1. Open the home page
+        2. Sign in as demo user
+        3. Vote on a prompt
+        4. Refresh the page
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect instead?
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Browser, OS, local/dev/prod, and any relevant console logs.
+    validations:
+      required: false

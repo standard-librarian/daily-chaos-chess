@@ -1,0 +1,24 @@
+name: Chaos move idea
+description: Pitch a funny mutation, lore event, or board gimmick for future turns.
+title: "[Chaos] "
+labels:
+  - idea
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This template is for playful world ideas, not bug reports.
+  - type: textarea
+    id: move
+    attributes:
+      label: What should chaos do?
+      placeholder: A portal opens on c5 and any bishop that touches it comes back wearing a traffic cone.
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why would this make the site better?
+      placeholder: It's funny, instantly visual, and gives us a new artifact type to model in the engine.
+    validations:
+      required: true

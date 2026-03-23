@@ -1,0 +1,10 @@
+project:
+  name: Daily Chaos Chess
+  description: A daily internet chess spectacle where the top prompt becomes canon and mutates the board.
+  homepage: https://github.com/standard-librarian/daily-chaos-chess
+  labels:
+    - good first issue
+    - help wanted
+  language:
+    - TypeScript
+  repolink: https://github.com/standard-librarian/daily-chaos-chess

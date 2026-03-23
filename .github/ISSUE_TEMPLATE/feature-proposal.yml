@@ -1,0 +1,31 @@
+name: Feature proposal
+description: Suggest a product or technical improvement for the chaos loop.
+title: "[Idea] "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Sharp ideas are better than broad platform wishlists. Help us keep the daily loop weird, clear, and fun.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem or missed opportunity are you seeing?
+      placeholder: The history page shows what happened, but it doesn't feel dramatic enough to replay.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What should happen instead?
+      placeholder: Add a turn replay animation that highlights moved or spawned pieces.
+    validations:
+      required: true
+  - type: textarea
+    id: demo
+    attributes:
+      label: What would make this easy to demo in 30 seconds?
+      placeholder: A before/after replay clip or a one-click "replay last turn" button on the history card.
+    validations:
+      required: false

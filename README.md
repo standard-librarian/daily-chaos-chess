@@ -1,5 +1,9 @@
 # Daily Chaos Chess
 
+[![Stars](https://img.shields.io/github/stars/standard-librarian/daily-chaos-chess?style=flat-square)](https://github.com/standard-librarian/daily-chaos-chess/stargazers)
+[![Issues](https://img.shields.io/github/issues/standard-librarian/daily-chaos-chess?style=flat-square)](https://github.com/standard-librarian/daily-chaos-chess/issues)
+[![Good First Issues](https://img.shields.io/github/issues/standard-librarian/daily-chaos-chess/good%20first%20issue?style=flat-square)](https://github.com/standard-librarian/daily-chaos-chess/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22)
+
 A daily internet spectacle where the crowd decides what the chessboard becomes
 next.
 
@@ -73,6 +77,15 @@ pnpm test:unit
 pnpm test:bdd
 pnpm build
 ```
+
+## Contributing
+
+Contributions are welcome, especially around visuals, replay/history polish,
+board feel, and contributor experience.
+
+- Contribution guide: [`.github/CONTRIBUTING.md`](./.github/CONTRIBUTING.md)
+- Good first issues: [GitHub issue search](https://github.com/standard-librarian/daily-chaos-chess/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22)
+- Help wanted: [GitHub issue search](https://github.com/standard-librarian/daily-chaos-chess/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22)
 
 ## Cron
 
