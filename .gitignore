@@ -9,6 +9,7 @@ test-results
 coverage
 dist
 local.db*
+local.*.db
 *.tsbuildinfo
 public/assets/vendor
 tmp

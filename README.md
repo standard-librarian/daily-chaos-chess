@@ -75,8 +75,20 @@ TURSO_DATABASE_URL=file:./local.db
 pnpm typecheck
 pnpm test:unit
 pnpm test:bdd
+pnpm test:bdd:ui
 pnpm build
 ```
+
+## UI
+
+Browser BDD covers the full UI journey: board landing, sign-in/out, prompt submission, voting, history browsing, and the admin adjudication pipeline.
+
+```bash
+pnpm test:bdd:all
+pnpm screenshots:readme
+```
+
+![Daily Chaos Chess homepage hero](docs/readme/hero-home.png)
 
 ## Contributing
 

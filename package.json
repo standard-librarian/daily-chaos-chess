@@ -11,8 +11,11 @@
     "typecheck": "next typegen && tsc --noEmit && tsc -p tsconfig.tests.json --noEmit",
     "test": "pnpm test:unit && pnpm test:bdd",
     "test:unit": "vitest run",
-    "test:bdd": "node --import tsx ./node_modules/@cucumber/cucumber/bin/cucumber.js --import tests/bdd/**/*.ts features/**/*.feature",
+    "test:bdd": "node --import tsx ./node_modules/@cucumber/cucumber/bin/cucumber.js --import tests/bdd/**/*.ts features/*.feature",
+    "test:bdd:ui": "node --import tsx tests/bdd-ui/run.ts",
+    "test:bdd:all": "pnpm test:bdd && pnpm test:bdd:ui",
     "test:e2e": "playwright test",
+    "screenshots:readme": "node --import tsx tests/bdd-ui/capture-readme.ts",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate"
   },
