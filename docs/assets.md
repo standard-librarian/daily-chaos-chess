@@ -9,6 +9,14 @@ Good places to source generic, reusable 3D props for the board atmosphere:
 - [Quaternius](https://quaternius.com/)
   - Strong source for cohesive low-poly environment packs, ruins, and fantasy props.
 
+## Current in-repo pack
+
+The current board atmosphere uses the **Kenney Castle Kit**:
+
+- Source page: [Kenney Castle Kit](https://www.kenney.nl/assets/castle-kit)
+- License: CC0
+- In repo: `public/assets/kenney/castle-kit/`
+
 ## Suggested visual categories
 
 - portals

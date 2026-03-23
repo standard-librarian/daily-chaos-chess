@@ -1,6 +1,6 @@
 "use client";
 
-import { Float, OrbitControls, Sparkles } from "@react-three/drei";
+import { Clone, Float, OrbitControls, Sparkles, useGLTF } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
 
@@ -115,6 +115,38 @@ function ChaosProps() {
   );
 }
 
+function CastleKitProps() {
+  const gate = useGLTF("/assets/kenney/castle-kit/gate.glb");
+  const arch = useGLTF("/assets/kenney/castle-kit/tower-square-arch.glb");
+  const tower = useGLTF("/assets/kenney/castle-kit/wall-corner-half-tower.glb");
+  const rocks = useGLTF("/assets/kenney/castle-kit/rocks-large.glb");
+  const stairs = useGLTF("/assets/kenney/castle-kit/stairs-stone-square.glb");
+  const trebuchet = useGLTF("/assets/kenney/castle-kit/siege-trebuchet-demolished.glb");
+  const ground = useGLTF("/assets/kenney/castle-kit/ground-hills.glb");
+  const tree = useGLTF("/assets/kenney/castle-kit/tree-large.glb");
+  const banner = useGLTF("/assets/kenney/castle-kit/flag-banner-long.glb");
+  const siegeTower = useGLTF("/assets/kenney/castle-kit/siege-tower-demolished.glb");
+
+  return (
+    <>
+      <Clone object={ground.scene} position={[3.5, -0.24, 3.5]} scale={2.6} castShadow receiveShadow />
+      <Clone object={gate.scene} position={[3.5, 0.18, -2.55]} rotation={[0, Math.PI, 0]} scale={0.88} castShadow receiveShadow />
+      <Clone object={arch.scene} position={[3.5, 0.18, 9.55]} scale={0.92} castShadow receiveShadow />
+      <Clone object={tower.scene} position={[-1.95, 0.18, 3.5]} rotation={[0, Math.PI / 2, 0]} scale={0.72} castShadow receiveShadow />
+      <Clone object={tower.scene} position={[8.95, 0.18, 3.5]} rotation={[0, -Math.PI / 2, 0]} scale={0.72} castShadow receiveShadow />
+      <Clone object={rocks.scene} position={[-2.6, 0.18, 8.9]} rotation={[0, Math.PI / 6, 0]} scale={0.95} castShadow receiveShadow />
+      <Clone object={rocks.scene} position={[9.7, 0.18, -0.7]} rotation={[0, -Math.PI / 4, 0]} scale={0.82} castShadow receiveShadow />
+      <Clone object={stairs.scene} position={[3.5, 0.18, -4.25]} rotation={[0, Math.PI, 0]} scale={0.9} castShadow receiveShadow />
+      <Clone object={trebuchet.scene} position={[10.3, 0.18, 8.5]} rotation={[0, -Math.PI / 2.6, 0]} scale={0.52} castShadow receiveShadow />
+      <Clone object={siegeTower.scene} position={[-3.7, 0.18, 9.7]} rotation={[0, Math.PI / 8, 0]} scale={0.58} castShadow receiveShadow />
+      <Clone object={tree.scene} position={[-4.45, 0.18, 0.4]} rotation={[0, Math.PI / 7, 0]} scale={0.92} castShadow receiveShadow />
+      <Clone object={tree.scene} position={[11.2, 0.18, 1.1]} rotation={[0, -Math.PI / 5, 0]} scale={0.78} castShadow receiveShadow />
+      <Clone object={banner.scene} position={[-1.8, 1.45, 3.45]} rotation={[0, Math.PI / 2, 0]} scale={0.8} castShadow receiveShadow />
+      <Clone object={banner.scene} position={[8.8, 1.45, 3.55]} rotation={[0, -Math.PI / 2, 0]} scale={0.8} castShadow receiveShadow />
+    </>
+  );
+}
+
 export function BoardScene({ worldState }: BoardSceneProps) {
   return (
     <div className="board-wrap">
@@ -154,6 +186,7 @@ export function BoardScene({ worldState }: BoardSceneProps) {
             .map((artifact) => (
               <ArtifactMesh key={artifact.id} x={artifact.position.x} y={artifact.position.y} z={artifact.position.z ?? 0.12} />
             ))}
+          <CastleKitProps />
           <ChaosProps />
         </group>
         <OrbitControls
@@ -168,3 +201,14 @@ export function BoardScene({ worldState }: BoardSceneProps) {
     </div>
   );
 }
+
+useGLTF.preload("/assets/kenney/castle-kit/gate.glb");
+useGLTF.preload("/assets/kenney/castle-kit/tower-square-arch.glb");
+useGLTF.preload("/assets/kenney/castle-kit/wall-corner-half-tower.glb");
+useGLTF.preload("/assets/kenney/castle-kit/rocks-large.glb");
+useGLTF.preload("/assets/kenney/castle-kit/stairs-stone-square.glb");
+useGLTF.preload("/assets/kenney/castle-kit/siege-trebuchet-demolished.glb");
+useGLTF.preload("/assets/kenney/castle-kit/ground-hills.glb");
+useGLTF.preload("/assets/kenney/castle-kit/tree-large.glb");
+useGLTF.preload("/assets/kenney/castle-kit/flag-banner-long.glb");
+useGLTF.preload("/assets/kenney/castle-kit/siege-tower-demolished.glb");

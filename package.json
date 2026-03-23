@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit && tsc -p tsconfig.tests.json --noEmit",
+    "typecheck": "next typegen && tsc --noEmit && tsc -p tsconfig.tests.json --noEmit",
     "test": "pnpm test:unit && pnpm test:bdd",
     "test:unit": "vitest run",
     "test:bdd": "node --import tsx ./node_modules/@cucumber/cucumber/bin/cucumber.js --import tests/bdd/**/*.ts features/**/*.feature",
